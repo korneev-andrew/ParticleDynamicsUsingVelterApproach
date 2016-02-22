@@ -11,10 +11,15 @@ import java.util.LinkedList;
  */
 public class Main extends JFrame {
 
-    MolecularDynamics md = new MolecularDynamics();
+    MolecularDynamics md1 = new MolecularDynamics();
+    MolecularDynamics md = md1.getInstance();
     int indentX = (int) md.Lx/20;
     int indentY = (int) md.Ly/20;
+    double E ;
+    double Eprev;
+
     static void printDollas(){  System.out.print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");System.out.println();}
+
     static void interactive()
     {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -66,10 +71,9 @@ public class Main extends JFrame {
         this.setLocationRelativeTo(null);
         }
 
-public static void main(String[] args)  {
+    public static void main(String[] args)  {
 
-        interactive();
-
+        //interactive();
         try {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {}
@@ -84,8 +88,9 @@ public static void main(String[] args)  {
         });
         }
 
-public class DrawPanel extends JComponent implements Runnable {
+    public class DrawPanel extends JComponent implements Runnable {
     boolean init = true;
+
     LinkedList<Integer> xShadow = new LinkedList<>();
     LinkedList<Integer> yShadow = new LinkedList<>();
 
@@ -98,9 +103,8 @@ public class DrawPanel extends JComponent implements Runnable {
     public void run() {
         while (true) {
             repaint();
-           // try {
-            //    Thread.sleep(1);
-           // } catch (InterruptedException ex) {}
+            try {Thread.sleep(1);
+            } catch (InterruptedException ex) {}
         }
     }
 
@@ -118,10 +122,16 @@ public class DrawPanel extends JComponent implements Runnable {
 
         if(init) {
             md.init();
+            md.accel();
             init = false;
         }
-        md.accel();
-        md.verlet();
+        for(int i = 0; i < md.nsnap; i++)
+            md.verlet();
+
+        E = (md.KE + md.PE)/md.N;
+        g2d.drawString("dE = " + (E - Eprev)/Eprev + "%", indentX, indentY);
+
+        Eprev = E;
 
         //Checking coordinates for first two added particles
         //System.out.println(md.x[0]+ " : "+md.y[0]);
@@ -130,10 +140,10 @@ public class DrawPanel extends JComponent implements Runnable {
 
         for(int i = 0; i< md.N;i++)
         {
-            g2d.setColor(i % 2 == 0 ? Color.blue : Color.red);
+            g2d.setColor(i == 0 ? Color.blue : Color.red);
             g2d.fillOval( (int)md.x[i] + indentX, (int) md.y[i] + indentY, 10, 10);
 
-            //If u like to draw trajectory uncomment this, but it ll eat ya memory almost instanly
+            //If u like to draw trajectory uncomment this, but it ll eat ya memory almost instantly
 
             //for(int j = 0 ; j< xShadow.size() ; j++)
             //g2d.drawOval(xShadow.get(j),yShadow.get(j),1,1);

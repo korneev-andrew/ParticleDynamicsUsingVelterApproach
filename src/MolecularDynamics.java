@@ -3,18 +3,19 @@
  */
 public class MolecularDynamics {
     //Input
-    static int N = 2;//number of particles
-    static double Lx = 480,Ly = 480;//boarders
+    static int N = 12;//number of particles
+    static double Lx = 200,Ly = 200;//boarders
     double[] Vx = new double[N];
     double[] Vy = new double[N];
     double[] x = new double[N];
     double[] y = new double[N];
-    double dt = 0.001d;
+    double dt = 0.02d;
     double dt2 = dt * dt;
-    static double Vmax = 10.0d;
+    static double Vmax = 0.8d;
     double[] ax = new double[N];
     double[] ay = new double[N];
     double PE,KE;
+    int nsnap = 10;
 
     int indentX = (int) Lx/20;
     int indentY = (int) Ly/20;
@@ -22,65 +23,83 @@ public class MolecularDynamics {
     public void init() {
         for (int i = 0; i < N; i++) {
                 x[i] = Math.random()*Lx;
-                //x[0] = 0 ;
-                //y[0] = 0 ;
                 y[i] = Math.random()*Ly;
+                //x[0] = Lx/1.3 ;
+                //y[0] = Ly/1.3 ;
                 //x[1] = Lx- 10;
                 //y[1] = Ly - 10;
-                Vx[i] = Vmax * (Math.random() * 3 - 3);
-                Vy[i] = Vmax * (Math.random() * 3 - 3);
+
+                //x[0] = 0;
+                //y[0] = Ly/2;
+                //x[1] = Lx/2;
+                //y[1] = 0;
+
+                //Vx[0] = Vmax;
+                //Vy[0] = 0;
+                //Vx[1] = 0;
+                //Vy[1] = -Vmax;
+                //Vx[0] = Vmax;
+                //Vy[0] = Vmax;
+                //Vx[1] = -Vmax;
+                //Vy[1] = -Vmax;
+                Vx[i] = Vmax * (Math.random()*2 - 1);// [-Vmax,Vmax)
+                Vy[i] = Vmax * (Math.random()*2 - 1);// [-Vmax,Vmax)
         }
 
-        double[] Vxmas = new double[N];
-        double[] Vymas = new double[N];
+        double Vxmas = 0.0d;
+        double Vymas = 0.0d;
 
         for (int i = 0; i < N; i++) {
-            Vxmas[i] = Vxmas[i] + Vx[i];
-            Vymas[i] = Vymas[i] + Vy[i];
+            Vxmas = Vxmas + Vx[i];
+            Vymas = Vymas + Vy[i];
         }
 
-        for (int i = 0; i < N; i++)
-
-        {
-            Vxmas[i] = Vxmas[i] / N;
-            Vymas[i] = Vymas[i] / N;
-        }
+            Vxmas = Vxmas / N;
+            Vymas = Vymas / N;
 
         for (int i = 0; i < N; i++)
-
         {
-            Vx[i] = Vx[i] - Vxmas[i];
-            Vy[i] = Vy[i] - Vymas[i];
+            Vx[i] = Vx[i] - Vxmas;
+            Vy[i] = Vy[i] - Vymas;
         }
     }
 
     public void verlet()
     {
 
+        KE = 0;
+
     for(int i = 0;i<N;i++)
     {
-        x[i] = x[i] + Vx[i] * dt + 0.5 * ax[i]*dt2;
-        y[i] = y[i] + Vy[i] * dt + 0.5 * ay[i]*dt2;
+        double xnew;
+        double ynew;
+
+        xnew = x[i] + Vx[i] * dt + 0.5 * ax[i]*dt2;
+        ynew = y[i] + Vy[i] * dt + 0.5 * ay[i]*dt2;
+
         //period case
-        if(x[i]<0) x[i] = x[i] + Lx;
-        if(x[i]>Lx) x[i] = x[i] - Lx;
-        if(y[i]<0) y[i] = y[i] + Ly;
-        if(y[i]>Lx) y[i] = y[i] - Ly;
+        if(xnew < 0) {xnew = xnew + Lx;}
+        if(xnew > Lx){xnew = xnew - Lx;}
+        if(ynew < 0) {ynew = ynew + Ly;}
+        if(ynew > Ly){ynew = ynew - Ly;}
+
+        x[i] = xnew;
+        y[i] = ynew;
         //period case end
     }
         for(int i = 0;i<N;i++)
         {
-            Vx[i] += 0.5 * ax[i] * dt;
-            Vy[i] += 0.5 * ay[i] * dt;
+            Vx[i] = Vx[i] + 0.5 * ax[i] * dt;
+            Vy[i] = Vy[i] + 0.5 * ay[i] * dt;
         }
 
         accel();
 
         for(int i = 0;i<N;i++)
         {
-            Vx[i] += 0.5 * ax[i] * dt;
-            Vy[i] += 0.5 * ay[i] * dt;
-            KE += 0.5 * ( Vx[i]*Vx[i] + Vy[i]*Vy[i] );
+            Vx[i] = Vx[i] + 0.5 * ax[i] * dt;
+            Vy[i] = Vy[i] + 0.5 * ay[i] * dt;
+            KE = KE + 0.5 * ( Vx[i]*Vx[i] + Vy[i]*Vy[i] );
         }
     }
 
@@ -96,6 +115,14 @@ public class MolecularDynamics {
         double force;
         double potential;
 
+        PE = 0;
+
+        for(int i=0; i< N; i++) {
+            ax[i] = 0.0d;
+            ay[i] = 0.0d;
+
+        }
+
         for(int i = 0; i < N - 1; i++)
         {
             for(int j = i + 1; j < N; j++)
@@ -103,8 +130,8 @@ public class MolecularDynamics {
                 dx = x[i] - x[j];
                 dy = y[i] - y[j];
                 //skip case
-                if( Math.abs(dx) > 0.5*Lx ) dx = dx - Math.signum(dx) * Lx;
-                else if( Math.abs(dx) > 0.5*Ly ) dy = dy - Math.signum(dy) * Ly;
+                if( Math.abs(dx) > 0.5*Lx ){ dx = dx - Math.signum(dx) * Lx; }
+                if( Math.abs(dy) > 0.5*Ly ){ dy = dy - Math.signum(dy) * Ly; }
                 //skip case end
                 r = Math.sqrt(dx * dx + dy * dy);
                 //force
@@ -120,7 +147,7 @@ public class MolecularDynamics {
                 ax[j] = ax[j] - force*dx;
                 ay[j] = ay[j] - force*dy;
 
-                PE += potential;
+                PE = PE + potential;
             }
         }
     }
