@@ -37,7 +37,7 @@ public class Main extends JFrame {
         printDollas();
 
         while(true) {
-            System.out.println("Enter Lx and Ly using space button (400x400 is good for >3 particles)");
+            System.out.println("Enter Lx and Ly using space button");
             try {
                 String L = reader.readLine();
                 if(L.contains(" "))

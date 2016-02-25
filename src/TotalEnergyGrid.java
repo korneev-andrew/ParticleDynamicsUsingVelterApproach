@@ -11,7 +11,7 @@ public class TotalEnergyGrid extends JFrame
     MolecularDynamics md = md1.getInstance();
 
     int sizeX = 1000;
-    int sizeY = 200;
+    int sizeY = 300;
     int time = 0;
     double timeSpent = 0;
     double Ediffmax = Double.MIN_VALUE;
@@ -41,7 +41,7 @@ public class TotalEnergyGrid extends JFrame
         public void run() {
             while (true) {
                 repaint();
-                try {Thread.sleep(100);
+                try {Thread.sleep(1);
                 } catch (InterruptedException ex) {}
             }
         }
@@ -54,27 +54,37 @@ public class TotalEnergyGrid extends JFrame
 
             g2d.setColor(Color.blue);
 
-            if(Main.E !=0)
-            g2d.drawOval(time,(int)(Main.E * sizeY + sizeY/2),1,1);
+            if(time > sizeX)
+            {
+                time = 0;
+                xShadow.clear();
+                yShadow.clear();
+            }
 
+            if(Main.E !=0)
+            g2d.drawOval(time,(int)(sizeY-Main.E*sizeY),1,1);
+
+
+            g2d.setColor(Color.black);
             g2d.drawString("time = " + timeSpent/1000 + "s",sizeX - 70,10);
-            g2d.drawString("E = " + Main.E,0,sizeY - 10);
+            g2d.drawString("E = " + Main.E,sizeX/2 - 70,10);
 
             if(Main.dE > Ediffmax && Main.dE != Double.POSITIVE_INFINITY && Main.dE != Double.NEGATIVE_INFINITY)
             {
                 Ediffmax = Main.dE;
             }
-            g2d.drawString("Ediff max = " + Ediffmax + "%",0,sizeY);
+            g2d.drawString("Ediff max = " + Ediffmax + "%",sizeX/2 - 70,20);
 
             time ++;
             timeSpent += md.nsnap;
 
             //Illustrating trajectory
+            g2d.setColor(Color.blue);
             for(int j = 0 ; j < xShadow.size() ; j++)
             g2d.drawOval(xShadow.get(j),yShadow.get(j),1,1);
 
             xShadow.add(time);
-            yShadow.add((int)(Main.E * sizeY + sizeY/2));
+            yShadow.add((int)(sizeY-Main.E * sizeY));
         }
     }
 

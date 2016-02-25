@@ -3,7 +3,7 @@
  */
 public class MolecularDynamics {
     //Input
-    static int N = 6;//number of particles
+    static int N = 12;//number of particles
     static double Lx = 400, Ly = 400;//boarders
     double[] Vx = new double[N];
     double[] Vy = new double[N];
@@ -11,12 +11,11 @@ public class MolecularDynamics {
     double[] y = new double[N];
     double dt = 0.01d;
     double dt2 = dt * dt;
-    double dtpow = 1/dt;
-    static double Vmax = 0.2d;
+    static double Vmax = 1.0d;
     double[] ax = new double[N];
     double[] ay = new double[N];
     double PE, KE;
-    int nsnap = 100;
+    int nsnap = 5;
     double sumImpulse = 0;
 
     int indentX = (int) Lx / 20;
