@@ -15,8 +15,9 @@ public class Main extends JFrame {
     MolecularDynamics md = md1.getInstance();
     int indentX = (int) md.Lx/20;
     int indentY = (int) md.Ly/20;
-    double E ;
-    double Eprev;
+    static double E ;
+    static double Eprev;
+    static double dE;
 
     static void printDollas(){  System.out.print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");System.out.println();}
 
@@ -80,10 +81,15 @@ public class Main extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
+                //adding a Frame with the illustration of molecular dynamics
                 JFrame frame = new Main("Molecular Dynamics");
-                frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-                frame.getContentPane().setBackground(Color.cyan);
+                //adding a Frame with the illustration of Total Energy
+                JFrame graph = new TotalEnergyGrid("Total Energy grid");
 
+                frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                frame.getContentPane().setBackground(Color.cyan);
+                graph.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                graph.getContentPane().setBackground(Color.white);
             }
         });
         }
@@ -129,8 +135,7 @@ public class Main extends JFrame {
             md.verlet();
 
         E = (md.KE + md.PE)/md.N;
-        g2d.drawString("dE = " + (E - Eprev)/Eprev + "%", indentX, indentY);
-
+        dE = (E - Eprev)/Eprev;
         Eprev = E;
 
         //Checking coordinates for first two added particles
