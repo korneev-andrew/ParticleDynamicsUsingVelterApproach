@@ -18,6 +18,8 @@ public class Main extends JFrame {
     static double E ;
     static double Eprev;
     static double dE;
+    static double PE;
+    static double KE;
 
     static void printDollas(){  System.out.print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");System.out.println();}
 
@@ -126,7 +128,8 @@ public class Main extends JFrame {
         g2d.drawString("Y", indentY / 2, (int) md.Ly/2);
 
 
-        if(init) {
+        if (init)
+        {
             md.init();
             md.accel();
             init = false;
@@ -134,13 +137,12 @@ public class Main extends JFrame {
         for(int i = 0; i < md.nsnap; i++)
             md.verlet();
 
+        KE = md.KE/md.N;
+        PE = md.PE/md.N;
+
         E = (md.KE + md.PE)/md.N;
         dE = (E - Eprev)/Eprev;
         Eprev = E;
-
-        //Checking coordinates for first two added particles
-        //System.out.println(md.x[0]+ " : "+md.y[0]);
-        //System.out.println(md.x[1]+ " : "+md.y[1]);
 
 
         for(int i = 0; i< md.N;i++)
@@ -148,7 +150,7 @@ public class Main extends JFrame {
             g2d.setColor(i == 0 ? Color.blue : Color.red);
             g2d.fillOval( (int)md.x[i] + indentX, (int) md.y[i] + indentY, 10, 10);
 
-            //If u like to draw trajectory uncomment this, but it ll eat ya memory almost instantly
+            //If u like to draw trajectory of ball$ uncomment this, but it ll eat ya memory almost instantly
 
             //for(int j = 0 ; j< xShadow.size() ; j++)
             //g2d.drawOval(xShadow.get(j),yShadow.get(j),1,1);

@@ -11,7 +11,7 @@ public class MolecularDynamics {
     double[] y = new double[N];
     double dt = 0.01d;
     double dt2 = dt * dt;
-    static double Vmax = 1.0d;
+    static double Vmax = 1.2d;
     double[] ax = new double[N];
     double[] ay = new double[N];
     double PE, KE;
@@ -160,7 +160,7 @@ public class MolecularDynamics {
                 ri6 = ri3 * ri3;
                 g = 24 * ri * ri6 * (2 * ri6 - 1);
                 force = -(Lx*Ly*g / r);
-                potential = 4 * ri6 * (ri6 - 1);
+                potential = -(4 *Lx*Ly* ri6 * (ri6 - 1));
                 //force end
                 ax[i] = ax[i] + force * dx;
                 ay[i] = ay[i] + force * dy;
