@@ -17,6 +17,8 @@ public class MolecularDynamics {
     double PE, KE;
     int nsnap = 5;
     double sumImpulse = 0;
+    static int forceMulty = 1;
+
 
     int indentX = (int) Lx / 20;
     int indentY = (int) Ly / 20;
@@ -159,8 +161,8 @@ public class MolecularDynamics {
                 ri3 = ri * ri * ri;
                 ri6 = ri3 * ri3;
                 g = 24 * ri * ri6 * (2 * ri6 - 1);
-                force = -(Lx*Ly*g / r);
-                potential = -(4 *Lx*Ly* ri6 * (ri6 - 1));
+                force = -(Lx*Ly*g / r) * forceMulty;
+                potential = -(4 *Lx*Ly* ri6 * (ri6 - 1)) * forceMulty;
                 //force end
                 ax[i] = ax[i] + force * dx;
                 ay[i] = ay[i] + force * dy;

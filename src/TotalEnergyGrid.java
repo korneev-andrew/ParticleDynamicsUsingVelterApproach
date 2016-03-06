@@ -47,6 +47,7 @@ public class TotalEnergyGrid extends JFrame
         @Override
         public void run() {
             while (true) {
+                if(!Main.pause)
                 repaint();
                 try {Thread.sleep(1);
                 } catch (InterruptedException ex) {}
@@ -73,7 +74,7 @@ public class TotalEnergyGrid extends JFrame
 
             //Showing variables : time ,E and relative difference between E on current step and previous
             g2d.setColor(Color.black);
-            g2d.drawString("time = " + timeSpent/1000 + "s",sizeX - 70,10);
+            g2d.drawString("time = " + (int)timeSpent/1000 + "s",sizeX - 70,10);
             g2d.drawString("E = " + Main.E,sizeX/2 - 70,10);
 
             if(Main.dE > Ediffmax && Main.dE != Double.POSITIVE_INFINITY && Main.dE != Double.NEGATIVE_INFINITY)

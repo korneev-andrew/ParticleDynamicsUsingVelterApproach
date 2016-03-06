@@ -11,8 +11,10 @@ import java.util.LinkedList;
  */
 public class Main extends JFrame {
 
-    MolecularDynamics md1 = new MolecularDynamics();
-    MolecularDynamics md = md1.getInstance();
+    transient static boolean pause = true;
+
+    static MolecularDynamics md = new MolecularDynamics();
+
     int indentX = (int) md.Lx/20;
     int indentY = (int) md.Ly/20;
     static double E ;
@@ -67,7 +69,7 @@ public class Main extends JFrame {
     Main(String s) {
         super(s);
         DrawPanel panel = new DrawPanel();
-        panel.setPreferredSize(new Dimension((int)( md.Lx + indentX * 3 ),(int) (md.Ly + indentY * 3)));
+        panel.setPreferredSize(new Dimension((int) (md.Lx + indentX * 3), (int) (md.Ly + indentY * 3)));
         add(panel);
         pack();
         setVisible(true);
@@ -77,23 +79,25 @@ public class Main extends JFrame {
     public static void main(String[] args)  {
 
         //interactive();
-        try {
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {}
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
+        //try {
+       // UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+       // } catch (Exception e) {}
+       // SwingUtilities.invokeLater(new Runnable() {
+       //     @Override
+       //     public void run() {
                 //adding a Frame with the illustration of molecular dynamics
                 JFrame frame = new Main("Molecular Dynamics");
                 //adding a Frame with the illustration of Total Energy
-                JFrame graph = new TotalEnergyGrid("Total Energy grid");
+                //JFrame graph = new TotalEnergyGrid("Total Energy grid");
+                //adding Control Panel
+                JFrame control = new ControlPanel();
 
                 frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 frame.getContentPane().setBackground(Color.cyan);
-                graph.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-                graph.getContentPane().setBackground(Color.white);
-            }
-        });
+                //graph.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                //graph.getContentPane().setBackground(Color.white);
+       //     }
+       // });
         }
 
     public class DrawPanel extends JComponent implements Runnable {
@@ -110,6 +114,7 @@ public class Main extends JFrame {
     @Override
     public void run() {
         while (true) {
+            if(!pause)
             repaint();
             try {Thread.sleep(1);
             } catch (InterruptedException ex) {}
