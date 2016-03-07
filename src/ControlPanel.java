@@ -56,7 +56,7 @@ public class ControlPanel extends JFrame
         pack();
 
         // start/pause button
-        startButton.setIcon(new ImageIcon("src\\start.jpg"));
+        startButton.setIcon(new ImageIcon(getClass().getClassLoader().getResource("start.jpg")));
         startButton.setBackground(Color.gray);
         startButton.setSize(48,48);
         startButton.setLocation(0,0);
@@ -86,7 +86,7 @@ public class ControlPanel extends JFrame
         });
 
         // save button
-        saveButton.setIcon(new ImageIcon("src\\save.png"));
+        saveButton.setIcon(new ImageIcon(getClass().getClassLoader().getResource("save.png")));
         saveButton.setBackground(Color.gray);
         saveButton.setToolTipText("Save in txt format");
         saveButton.setSize(48,48);
