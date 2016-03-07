@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="ParticleDynamicsUsingVelterApproach_Task1:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/ParticleDynamicsUsingVelterApproach_Task1_jar</output-path>
-    <root id="archive" name="ParticleDynamicsUsingVelterApproach_Task1.jar">
-      <element id="module-output" name="ParticleDynamicsUsingVelterApproach_Task1" />
-    </root>
-  </artifact>
-</component>
