@@ -6,11 +6,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e4697917-b0c1-4f67-ba1f-e60dc34895d8" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ControlPanel.java" afterPath="$PROJECT_DIR$/src/ControlPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main.java" afterPath="$PROJECT_DIR$/src/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/MolecularDynamics.java" afterPath="$PROJECT_DIR$/src/MolecularDynamics.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/TotalEnergyGrid.java" afterPath="$PROJECT_DIR$/src/TotalEnergyGrid.java" />
+    <list default="true" id="e4697917-b0c1-4f67-ba1f-e60dc34895d8" name="Default" comment="Project ready">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ParticlesDynamicsUsingVelterApproach_Task1.iws" />
@@ -33,11 +29,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="ParticleDynamicsUsingVelterApproach_Task1.iml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ParticleDynamicsUsingVelterApproach_Task1.iml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="2.566292">
-              <caret line="102" column="5" selection-start-line="102" selection-start-column="5" selection-end-line="102" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.42022473">
+              <caret line="113" column="95" selection-start-line="113" selection-start-column="95" selection-end-line="113" selection-end-column="95" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -69,21 +75,9 @@
         <entry file="file://$PROJECT_DIR$/src/ControlPanel.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="51" column="52" selection-start-line="51" selection-start-column="52" selection-end-line="51" selection-end-column="52" />
+              <caret line="88" column="95" selection-start-line="88" selection-start-column="95" selection-end-line="88" selection-end-column="95" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#5663#5664#0" expanded="true" />
-                <element signature="e#5754#5755#0" expanded="true" />
-                <element signature="e#6261#6262#0" expanded="true" />
-                <element signature="e#6348#6349#0" expanded="true" />
-                <element signature="e#6860#6861#0" expanded="true" />
-                <element signature="e#6951#6952#0" expanded="true" />
-                <element signature="e#7452#7453#0" expanded="true" />
-                <element signature="e#7537#7538#0" expanded="true" />
-                <element signature="e#8035#8036#0" expanded="true" />
-                <element signature="e#8120#8121#0" expanded="true" />
-                <element signature="e#9131#9132#0" expanded="true" />
-                <element signature="e#9191#9192#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -138,7 +132,7 @@
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
+    <navigator proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -149,48 +143,10 @@
       <autoscrollFromSource />
       <sortByType />
     </navigator>
-    <panes>
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ParticlesDynamicsUsingVelterApproach_Task1" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ParticlesDynamicsUsingVelterApproach_Task1" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ParticlesDynamicsUsingVelterApproach_Task1" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ParticlesDynamicsUsingVelterApproach_Task1" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ParticlesDynamicsUsingVelterApproach_Task1" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/start.jpg" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
     <property name="FullScreen" value="false" />
@@ -428,11 +384,17 @@
       <option name="project" value="LOCAL" />
       <updated>1457278764479</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Project ready">
+      <created>1457390337061</created>
+      <option name="number" value="00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1457390337061</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-6" y="-6" width="1378" height="740" extended-state="6" />
+    <frame x="-6" y="-6" width="1378" height="740" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -499,7 +461,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="E , PE, KE + Legends + zero position" />
     <MESSAGE value="Control Panel added&#10;Functions : start/pause, multiplying potential, saving is not implemented" />
-    <option name="LAST_COMMIT_MESSAGE" value="Control Panel added&#10;Functions : start/pause, multiplying potential, saving is not implemented" />
+    <MESSAGE value="Project ready" />
+    <option name="LAST_COMMIT_MESSAGE" value="Project ready" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -510,6 +473,42 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/MolecularDynamics.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="20" column="17" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TotalEnergyGrid.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="8" column="67" selection-start-line="8" selection-start-column="67" selection-end-line="8" selection-end-column="67" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ControlPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="51" column="52" selection-start-line="51" selection-start-column="52" selection-end-line="51" selection-end-column="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -542,18 +541,6 @@
           <caret line="26" column="41" selection-start-line="26" selection-start-column="41" selection-end-line="26" selection-end-column="41" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#5663#5664#0" expanded="true" />
-            <element signature="e#5754#5755#0" expanded="true" />
-            <element signature="e#6261#6262#0" expanded="true" />
-            <element signature="e#6348#6349#0" expanded="true" />
-            <element signature="e#6860#6861#0" expanded="true" />
-            <element signature="e#6951#6952#0" expanded="true" />
-            <element signature="e#7452#7453#0" expanded="true" />
-            <element signature="e#7537#7538#0" expanded="true" />
-            <element signature="e#8035#8036#0" expanded="true" />
-            <element signature="e#8120#8121#0" expanded="true" />
-            <element signature="e#9131#9132#0" expanded="true" />
-            <element signature="e#9191#9192#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -859,13 +846,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ParticleDynamicsUsingVelterApproach_Task1.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/TotalEnergyGrid.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -882,32 +862,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/ParticleDynamicsUsingVelterApproach_Task1.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/ControlPanel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="51" column="52" selection-start-line="51" selection-start-column="52" selection-end-line="51" selection-end-column="52" />
+          <caret line="88" column="95" selection-start-line="88" selection-start-column="95" selection-end-line="88" selection-end-column="95" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#5663#5664#0" expanded="true" />
-            <element signature="e#5754#5755#0" expanded="true" />
-            <element signature="e#6261#6262#0" expanded="true" />
-            <element signature="e#6348#6349#0" expanded="true" />
-            <element signature="e#6860#6861#0" expanded="true" />
-            <element signature="e#6951#6952#0" expanded="true" />
-            <element signature="e#7452#7453#0" expanded="true" />
-            <element signature="e#7537#7538#0" expanded="true" />
-            <element signature="e#8035#8036#0" expanded="true" />
-            <element signature="e#8120#8121#0" expanded="true" />
-            <element signature="e#9131#9132#0" expanded="true" />
-            <element signature="e#9191#9192#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.566292">
-          <caret line="102" column="5" selection-start-line="102" selection-start-column="5" selection-end-line="102" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.42022473">
+          <caret line="113" column="95" selection-start-line="113" selection-start-column="95" selection-end-line="113" selection-end-column="95" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
