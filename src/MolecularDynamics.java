@@ -1,21 +1,24 @@
 /**
  * Created by andrew_korneev on 18.02.2016.
  */
+
+// This class implements calculation of physical values
+
 public class MolecularDynamics {
     //Input
     static int N = 12;//number of particles
-    static double Lx = 400, Ly = 400;//boarders
+    static int Lx = 400, Ly = 400;//boarders
     double[] Vx = new double[N];
     double[] Vy = new double[N];
     double[] x = new double[N];
     double[] y = new double[N];
-    double dt = 0.01d;
-    double dt2 = dt * dt;
+    static double dt = 0.01d;
+    static double dt2 = dt * dt;
     static double Vmax = 1.2d;
     double[] ax = new double[N];
     double[] ay = new double[N];
     double PE, KE;
-    int nsnap = 5;
+    int nsnap = 1;
     double sumImpulse = 0;
     static int forceMulty = 1;
 
@@ -73,12 +76,10 @@ public class MolecularDynamics {
             Vy[i] = Vy[i] - Vymas;
         }
 
-        System.out.println("Summarized impulse is : ");
         for(int i = 0;i < N ; i++)
         {
             sumImpulse += (Vx[i] + Vy[i]);
         }
-        System.out.println(sumImpulse);
     }
 
     public void verlet() {

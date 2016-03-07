@@ -1,20 +1,33 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.LinkedList;
 
 
 /**
  * Created by andrew_korneev on 18.02.2016.
  */
+
+// This class creates frames : ControlPanel, MolecularDynamics illustration and Energy grid (if uncommented)
+
 public class Main extends JFrame {
+
+    transient static String [] data = new String[600];
 
     transient static boolean pause = true;
 
-    static MolecularDynamics md = new MolecularDynamics();
+    NumberFormat formatter = new DecimalFormat("#0");
+    NumberFormat formatterSave = new DecimalFormat("#0.0000000000000000");
+    int timeToSkip = 0;
 
+    MolecularDynamics md = new MolecularDynamics();
+
+    double secs;
+    int mins;
+    transient int time;
+    int ii = 0;
     int indentX = (int) md.Lx/20;
     int indentY = (int) md.Ly/20;
     static double E ;
@@ -23,48 +36,6 @@ public class Main extends JFrame {
     static double PE;
     static double KE;
 
-    static void printDollas(){  System.out.print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");System.out.println();}
-
-    static void interactive()
-    {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
-        while (true) {
-            System.out.println("Enter number of particles");
-            try {
-                String N = reader.readLine();
-                MolecularDynamics.N = Integer.parseInt(N);
-                break;
-            } catch (Exception e){        }
-        }
-
-        printDollas();
-
-        while(true) {
-            System.out.println("Enter Lx and Ly using space button");
-            try {
-                String L = reader.readLine();
-                if(L.contains(" "))
-                {
-                    MolecularDynamics.Lx = Integer.parseInt(L.split(" ")[0]);
-                    MolecularDynamics.Ly = Integer.parseInt(L.split(" ")[1]);
-                    break;
-                }
-                else throw new IOException();
-            } catch (Exception ex) {        }
-        }
-
-        printDollas();
-
-        while (true) {
-            System.out.println("Enter Vmax to evaluate initial speed");
-            try {
-                String Vmax = reader.readLine();
-                MolecularDynamics.Vmax = Integer.parseInt(Vmax);
-                break;
-            } catch (Exception e){        }
-        }
-    }
 
     Main(String s) {
         super(s);
@@ -73,31 +44,29 @@ public class Main extends JFrame {
         add(panel);
         pack();
         setVisible(true);
+        setResizable(false);
         this.setLocationRelativeTo(null);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        getContentPane().setBackground(Color.cyan);
         }
 
-    public static void main(String[] args)  {
+    public static void main(String[] args)  throws IOException{
 
-        //interactive();
-        //try {
-       // UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-       // } catch (Exception e) {}
-       // SwingUtilities.invokeLater(new Runnable() {
-       //     @Override
-       //     public void run() {
-                //adding a Frame with the illustration of molecular dynamics
-                JFrame frame = new Main("Molecular Dynamics");
-                //adding a Frame with the illustration of Total Energy
-                //JFrame graph = new TotalEnergyGrid("Total Energy grid");
-                //adding Control Panel
+        try {
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {}
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+
+                //adding Control Panel and a Main frame eventually
                 JFrame control = new ControlPanel();
 
-                frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                frame.getContentPane().setBackground(Color.cyan);
+                //adding a Frame with the illustration of Total Energy
+                //JFrame graph = new TotalEnergyGrid("Total Energy grid");
                 //graph.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
                 //graph.getContentPane().setBackground(Color.white);
-       //     }
-       // });
+            }
+        });
         }
 
     public class DrawPanel extends JComponent implements Runnable {
@@ -113,9 +82,20 @@ public class Main extends JFrame {
 
     @Override
     public void run() {
-        while (true) {
+
+
+        while (true)
+        {
             if(!pause)
-            repaint();
+            {
+                repaint();
+                if(time%250==0 && time!=timeToSkip && ii<600)
+                {
+                    timeToSkip = time;
+                    data[ii]= "" + (double)time/1000 + " " + formatterSave.format(E) + " " + formatterSave.format(KE) + " " + formatterSave.format(PE);
+                    ii++;
+                }
+            }
             try {Thread.sleep(1);
             } catch (InterruptedException ex) {}
         }
@@ -131,7 +111,11 @@ public class Main extends JFrame {
         g2d.drawString("" + (int)md.Ly,  0, (int) md.Ly + indentY * 2);
         g2d.drawString("X", (int)md.Lx/2, indentY - indentY/2);
         g2d.drawString("Y", indentY / 2, (int) md.Ly/2);
+        g2d.drawString(mins + "m" + formatter.format(secs/1000) + "s",md.Lx,md.Ly + indentY*3);
 
+        secs++;
+        time++;
+        if(secs== 60 * 1000) {mins++;secs=0;}
 
         if (init)
         {
@@ -154,14 +138,6 @@ public class Main extends JFrame {
         {
             g2d.setColor(i == 0 ? Color.blue : Color.red);
             g2d.fillOval( (int)md.x[i] + indentX, (int) md.y[i] + indentY, 10, 10);
-
-            //If u like to draw trajectory of ball$ uncomment this, but it ll eat ya memory almost instantly
-
-            //for(int j = 0 ; j< xShadow.size() ; j++)
-            //g2d.drawOval(xShadow.get(j),yShadow.get(j),1,1);
-
-            //xShadow.add((int)md.x[i] + indentX);
-            //yShadow.add((int)md.y[i] + indentY);
         }
     }
 }

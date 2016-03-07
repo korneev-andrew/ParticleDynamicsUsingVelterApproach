@@ -3,8 +3,11 @@ import java.awt.*;
 import java.util.LinkedList;
 
 /**
- * Created by admin on 25.02.2016.
+ * Created by andrew_korneev on 25.02.2016.
  */
+
+//This class implements Grids for potential, kinetic,total energies
+
 public class TotalEnergyGrid extends JFrame
 {
     MolecularDynamics md1 = new MolecularDynamics();
