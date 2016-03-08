@@ -6,7 +6,7 @@ import java.util.LinkedList;
  * Created by andrew_korneev on 25.02.2016.
  */
 
-//This class implements Grids for potential, kinetic,total energies
+//This class implements Grids for potential, kinetic,total energies and measurement error in calculating E
 
 public class TotalEnergyGrid extends JFrame
 {

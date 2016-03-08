@@ -22,6 +22,7 @@ public class ControlPanel extends JFrame
     JButton saveButton = new JButton();
     JButton x100 = new JButton();
     JButton d100 = new JButton();
+    JButton enter = new JButton();
 
     JLabel multy = new JLabel("1x");
     JLabel dtLabel = new JLabel("dt");
@@ -65,10 +66,14 @@ public class ControlPanel extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                N.disable();
-                Vmax.disable();
-                Lx.disable();
-                Ly.disable();
+                N.setEditable(false);
+                Vmax.setEditable(false);
+                Lx.setEditable(false);
+                Ly.setEditable(false);
+                N.setBackground(Color.gray);
+                Vmax.setBackground(Color.gray);
+                Lx.setBackground(Color.gray);
+                Ly.setBackground(Color.gray);
                 if(go)
                 {
                     callMain();
@@ -98,7 +103,7 @@ public class ControlPanel extends JFrame
                 try
                 {
                     FileWriter FW = new FileWriter("data.txt");
-                    FW.write("t,s" + " " + "E,J               " + " " + "KE,J              " + " " + "PE,J              " + "\r\n");
+                    FW.write("t,s   " + " " + "E,J/kg            " + " " + "KE,J/kg           " + " " + "PE,J/kg           " + " " + "Av.deviation       " + "T,K               "+"\r\n");
                     for(int i =0; i< Main.data.length; i++)
                     {
                         if(Main.data[i]!=null)
@@ -245,6 +250,24 @@ public class ControlPanel extends JFrame
         LyLabel.setSize(68,15);
         LyLabel.setLocation(400,0);
 
+        // Enter button
+        enter.setSize(68,15);
+        enter.setLocation(260,33);
+        enter.setText("Enter");
+        enter.setToolTipText("Accept input parameters");
+        enter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                    MolecularDynamics.N = Integer.parseInt(N.getText());
+                    MolecularDynamics.dt = Double.parseDouble(dt.getText());
+                    MolecularDynamics.Vmax = Double.parseDouble(Vmax.getText());
+                    MolecularDynamics.Lx = Integer.parseInt(Lx.getText());
+                    MolecularDynamics.Ly = Integer.parseInt(Ly.getText());
+            }
+        });
+
+
 
         // adding JObjects to JPanel
         jpanel.add(startButton);
@@ -262,6 +285,7 @@ public class ControlPanel extends JFrame
         jpanel.add(Ly);
         jpanel.add(LxLabel);
         jpanel.add(LyLabel);
+        jpanel.add(enter);
 
         // JPanel settings
         jpanel.setOpaque(true);

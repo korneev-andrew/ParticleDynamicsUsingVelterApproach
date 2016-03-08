@@ -14,17 +14,17 @@ import java.util.LinkedList;
 
 public class Main extends JFrame {
 
-    transient static String [] data = new String[600];
+    transient static String [] data = new String[10000];
 
     transient static boolean pause = true;
 
     NumberFormat formatter = new DecimalFormat("#0");
-    NumberFormat formatterSave = new DecimalFormat("#0.0000000000000000");
+
     int timeToSkip = 0;
 
     MolecularDynamics md = new MolecularDynamics();
 
-    double secs;
+    double secs = -1;
     int mins;
     transient int time;
     int ii = 0;
@@ -46,7 +46,7 @@ public class Main extends JFrame {
         setVisible(true);
         setResizable(false);
         this.setLocationRelativeTo(null);
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setBackground(Color.cyan);
         }
 
@@ -89,10 +89,12 @@ public class Main extends JFrame {
             if(!pause)
             {
                 repaint();
-                if(time%250==0 && time!=timeToSkip && ii<600)
+                if(time%100==0 && time!=timeToSkip && ii < 10000)
                 {
                     timeToSkip = time;
-                    data[ii]= "" + (double)time/1000 + " " + formatterSave.format(E) + " " + formatterSave.format(KE) + " " + formatterSave.format(PE);
+                    data[ii]= String.format("%-6.2f",(double)time/1000) + " " + String.format("%-18.12f",E) + " " + String.format("%-18.12f",KE) + " " +
+                              String.format("%-18.12f",PE) + " " +   String.format("%-18.16f",MolecularDynamics.deviation) + " " +
+                              String.format("%-18.15f",KE * md.m / (1.38 * Math.pow(10, -23)));
                     ii++;
                 }
             }
@@ -106,6 +108,10 @@ public class Main extends JFrame {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
+        secs++;
+        time++;
+        if(secs == 60 * 1000) {mins++;secs=0;}
+
         g2d.drawRect(indentX,indentY,(int)md.Lx + indentX,(int)md.Ly + indentY);
         g2d.drawString("" + (int)md.Lx, (int) md.Lx + indentX , indentY);
         g2d.drawString("" + (int)md.Ly,  0, (int) md.Ly + indentY * 2);
@@ -113,9 +119,7 @@ public class Main extends JFrame {
         g2d.drawString("Y", indentY / 2, (int) md.Ly/2);
         g2d.drawString(mins + "m" + formatter.format(secs/1000) + "s",md.Lx,md.Ly + indentY*3);
 
-        secs++;
-        time++;
-        if(secs== 60 * 1000) {mins++;secs=0;}
+
 
         if (init)
         {
@@ -126,10 +130,10 @@ public class Main extends JFrame {
         for(int i = 0; i < md.nsnap; i++)
             md.verlet();
 
-        KE = md.KE/md.N;
-        PE = md.PE/md.N;
+        KE = md.KE;
+        PE = md.PE;
 
-        E = (md.KE + md.PE)/md.N;
+        E = (md.KE + md.PE);
         dE = (E - Eprev)/Eprev;
         Eprev = E;
 

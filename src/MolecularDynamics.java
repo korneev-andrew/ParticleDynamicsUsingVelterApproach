@@ -21,6 +21,11 @@ public class MolecularDynamics {
     int nsnap = 1;
     double sumImpulse = 0;
     static int forceMulty = 1;
+    static double deviation = 0;
+    double localDeviation;
+    double xprev[] = new double[N];
+    double yprev[] = new double[N];
+    double m = 9.109383561 * Math.pow(10 , -31);// electron mass
 
 
     int indentX = (int) Lx / 20;
@@ -84,9 +89,11 @@ public class MolecularDynamics {
 
     public void verlet() {
 
+        deviation = 0;
         KE = 0;
 
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < N; i++)
+        {
             double xnew;
             double ynew;
 
@@ -94,38 +101,55 @@ public class MolecularDynamics {
             ynew = y[i] + Vy[i] * dt + 0.5 * ay[i] * dt2;
 
             //period case
-            if (xnew < 0) {
+            if (xnew < 0)
+            {
                 xnew = xnew + Lx;
             }
-            if (xnew > Lx) {
+            if (xnew > Lx)
+            {
                 xnew = xnew - Lx;
             }
-            if (ynew < 0) {
+            if (ynew < 0)
+            {
                 ynew = ynew + Ly;
             }
-            if (ynew > Ly) {
+            if (ynew > Ly)
+            {
                 ynew = ynew - Ly;
             }
 
             x[i] = xnew;
             y[i] = ynew;
             //period case end
+
+            // calculating deviation for i particle
+            localDeviation = Math.pow(x[i] + y[i] - xprev[i] - yprev[i],2);
+            deviation+=localDeviation;
+
+            xprev[i] = x[i];
+            yprev[i] = y[i];
         }
-        for (int i = 0; i < N; i++) {
+            // average deviation among all N particles
+            deviation = deviation / N;
+
+        for (int i = 0; i < N; i++)
+        {
             Vx[i] = Vx[i] + 0.5 * ax[i] * dt;
             Vy[i] = Vy[i] + 0.5 * ay[i] * dt;
         }
 
         accel();
 
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < N; i++)
+        {
             Vx[i] = Vx[i] + 0.5 * ax[i] * dt;
             Vy[i] = Vy[i] + 0.5 * ay[i] * dt;
             KE = KE + 0.5 * (Vx[i] * Vx[i] + Vy[i] * Vy[i]);
         }
     }
 
-    public void accel() {
+    public void accel()
+    {
         double dx;
         double dy;
         double r;
@@ -144,15 +168,19 @@ public class MolecularDynamics {
             ay[i] = 0.0d;
         }
 
-        for (int i = 0; i < N - 1; i++) {
-            for (int j = i + 1; j < N; j++) {
+        for (int i = 0; i < N - 1; i++)
+        {
+            for (int j = i + 1; j < N; j++)
+            {
                 dx = x[i] - x[j];
                 dy = y[i] - y[j];
                 //skip case
-                if (Math.abs(dx) > 0.5 * Lx) {
+                if (Math.abs(dx) > 0.5 * Lx)
+                {
                     dx = dx - Math.signum(dx) * Lx;
                 }
-                if (Math.abs(dy) > 0.5 * Ly) {
+                if (Math.abs(dy) > 0.5 * Ly)
+                {
                     dy = dy - Math.signum(dy) * Ly;
                 }
                 //skip case end
@@ -175,15 +203,13 @@ public class MolecularDynamics {
         }
     }
 
-
     private static MolecularDynamics instance;
 
-    public static synchronized MolecularDynamics getInstance() {
+    public static synchronized MolecularDynamics getInstance()
+    {
         if (instance == null) {
             instance = new MolecularDynamics();
         }
         return instance;
     }
-
-
 }
