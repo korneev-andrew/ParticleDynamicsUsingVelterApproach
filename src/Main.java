@@ -35,16 +35,17 @@ public class Main extends JFrame {
     static double dE;
     static double PE;
     static double KE;
+    DrawPanel panel;
 
 
     Main(String s) {
         super(s);
-        DrawPanel panel = new DrawPanel();
+        panel = new DrawPanel();
         panel.setPreferredSize(new Dimension((int) (md.Lx + indentX * 3), (int) (md.Ly + indentY * 3)));
         add(panel);
         pack();
         setVisible(true);
-        setResizable(false);
+        setResizable(true);
         this.setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setBackground(Color.cyan);
@@ -69,7 +70,8 @@ public class Main extends JFrame {
         });
         }
 
-    public class DrawPanel extends JComponent implements Runnable {
+    public class DrawPanel extends JComponent implements Runnable
+    {
     boolean init = true;
 
     LinkedList<Integer> xShadow = new LinkedList<>();
@@ -112,23 +114,27 @@ public class Main extends JFrame {
         time++;
         if(secs == 60 * 1000) {mins++;secs=0;}
 
-        g2d.drawRect(indentX,indentY,(int)md.Lx + indentX,(int)md.Ly + indentY);
-        g2d.drawString("" + (int)md.Lx, (int) md.Lx + indentX , indentY);
-        g2d.drawString("" + (int)md.Ly,  0, (int) md.Ly + indentY * 2);
-        g2d.drawString("X", (int)md.Lx/2, indentY - indentY/2);
-        g2d.drawString("Y", indentY / 2, (int) md.Ly/2);
-        g2d.drawString(mins + "m" + formatter.format(secs/1000) + "s",md.Lx,md.Ly + indentY*3);
-
-
-
         if (init)
         {
-            md.init();
+            //md.initSquareLattice();
+            md.initTriangleLattice();
+            //new Deform().RemoveParticlesByIndex(12,6);
+            new Deform().AddParticle(md.Lx/2, md.Ly/2);
+            md.Vmas();
+            panel.setPreferredSize(new Dimension((int) (md.Lx + indentX * 3), (int) (md.Ly + indentY * 3)));
             md.accel();
             init = false;
         }
         for(int i = 0; i < md.nsnap; i++)
             md.verlet();
+
+        g2d.drawRect(indentX,indentY,(int)md.Lx + indentX,(int)md.Ly + indentY);
+        g2d.drawString("" + (int)md.Lx, (int) md.Lx + indentX , indentY);
+        g2d.drawString("" + (int)md.Ly,  0, (int) md.Ly + indentY * 2);
+        g2d.drawString("X", (int)md.Lx/2, indentY - indentY/2);
+        g2d.drawString("Y", indentY / 2, (int) md.Ly/2);
+        g2d.drawString(mins + "m" + formatter.format(secs/1000) + "s",(int)md.Lx,(int)md.Ly + indentY*3);
+
 
         KE = md.KE;
         PE = md.PE;
@@ -138,9 +144,9 @@ public class Main extends JFrame {
         Eprev = E;
 
 
-        for(int i = 0; i< md.N;i++)
+        for(int i = 0; i< md.x.length;i++)
         {
-            g2d.setColor(i == 0 ? Color.blue : Color.red);
+            g2d.setColor(i == 13 ? Color.blue : Color.red);
             g2d.fillOval( (int)md.x[i] + indentX, (int) md.y[i] + indentY, 10, 10);
         }
     }

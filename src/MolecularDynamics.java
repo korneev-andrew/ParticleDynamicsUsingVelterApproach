@@ -6,68 +6,157 @@
 
 public class MolecularDynamics {
     //Input
-    static int N = 12;//number of particles
-    static int Lx = 400, Ly = 400;//boarders
-    double[] Vx = new double[N];
-    double[] Vy = new double[N];
-    double[] x = new double[N];
-    double[] y = new double[N];
+    static int N = 36;//number of particles
+    static int a = 60;//distance between particles for triangle and square lattices
+    static double Lx = 400, Ly = 400;//boarders
+    static double[] Vx = new double[N];
+    static double[] Vy = new double[N];
+    static double[] x = new double[N];
+    static double[] y = new double[N];
     static double dt = 0.01d;
     static double dt2 = dt * dt;
-    static double Vmax = 1.2d;
-    double[] ax = new double[N];
-    double[] ay = new double[N];
+    static double Vmax = 0;
+    static double[] ax = new double[N];
+    static double[] ay = new double[N];
     double PE, KE;
     int nsnap = 1;
     double sumImpulse = 0;
     static int forceMulty = 1;
     static double deviation = 0;
     double localDeviation;
-    double xprev[] = new double[N];
-    double yprev[] = new double[N];
+    static double xprev[] = new double[N];
+    static double yprev[] = new double[N];
     double m = 9.109383561 * Math.pow(10 , -31);// electron mass
 
 
-    int indentX = (int) Lx / 20;
-    int indentY = (int) Ly / 20;
+    static int indentX = (int) Lx / 20;
+    static int indentY = (int) Ly / 20;
 
 
-    public void init() {
+    void initRandomLattice()
+    {
+        int n = 0;
         for (int i = 0; i < N; i++)
         {
             x[i] = Math.random() * Lx;
             y[i] = Math.random() * Ly;
 
-            //x[0] = Lx/1.3 ;
-            //y[0] = Ly/1.3 ;
-            //x[1] = Lx- 10;
-            //y[1] = Ly - 10;
-
-            //x[0] = 0;
-            //y[0] = Ly/2;
-            //x[1] = Lx/2;
-            //y[1] = Ly/2;
-
-            //Vx[0] = Vmax;
-            //Vy[0] = 0;
-            //Vx[1] = 0;
-            //Vy[1] = -Vmax;
-            //Vx[0] = Vmax;
-            //Vy[0] = Vmax;
-            //Vx[1] = -Vmax;
-            //Vy[1] = -Vmax;
-            //Vx[0] = 0;
-            //Vy[1] = 0;
-
             Vx[i] = Vmax * (Math.random() * 2 - 1);// [-Vmax,Vmax)
             Vy[i] = Vmax * (Math.random() * 2 - 1);// [-Vmax,Vmax)
         }
 
+    }
+
+
+    void initTriangleLattice() {
+
+        Lx = 6*a;
+        Ly =  3 * Math.pow(3,0.5)* a;
+
+        int n = 0;
+
+        for (int i = 0; i < N; i++) {
+            //1
+            if (i < 6) {
+                x[i] = a + a * i;
+                y[i] = 0.5 * 0.5 * Math.pow(3, 0.5) * a;
+            }
+            //2
+            else if (i < 12) {
+                x[i] = a / 2 + a * n;
+                y[i] = 0.5 * 0.5 * Math.pow(3, 0.5) * a + 0.5 * Math.pow(3, 0.5) * a;
+                n++;
+            }
+            //3
+            else if (i < 18) {
+                if (i == 12) n = 0;
+                x[i] = a + a * n;
+                y[i] = 0.5 * 0.5 * Math.pow(3, 0.5) * a + 2 * 0.5 * Math.pow(3, 0.5) * a;
+                n++;
+            }
+            //4
+            else if (i < 24) {
+                if (i == 18) n = 0;
+                x[i] = a / 2 + a * n;
+                y[i] = 0.5 * 0.5 * Math.pow(3, 0.5) * a + 3 * 0.5 * Math.pow(3, 0.5) * a;
+                n++;
+            }
+            //5
+            else if (i < 30) {
+                if (i == 24) n = 0;
+                x[i] = a + a * n;
+                y[i] = 0.5 * 0.5 * Math.pow(3, 0.5) * a + 4 * 0.5 * Math.pow(3, 0.5) * a;
+                n++;
+            }
+            //6
+            else if (i < 36) {
+                if (i == 30) n = 0;
+                x[i] = a / 2 + a * n;
+                y[i] = 0.5 * 0.5 * Math.pow(3, 0.5) * a + 5 * 0.5 * Math.pow(3, 0.5) * a;
+                n++;
+            }
+
+            Vx[i] = Vmax * (Math.random() * 2 - 1);// [-Vmax,Vmax)
+            Vy[i] = Vmax * (Math.random() * 2 - 1);// [-Vmax,Vmax)
+        }
+    }
+
+    void initSquareLattice() {
+
+        Lx = 6*a;
+        Ly =  6*a;
+        int n = 0;
+
+        for (int i = 0; i < N; i++) {
+            //1
+            if (i < 6) {
+                x[i] = a/2 + a * i;
+                y[i] = a/2;
+            }
+            //2
+            else if (i < 12) {
+                x[i] = a / 2 + a * n;
+                y[i] = a/2+ a;
+                n++;
+            }
+            //3
+            else if (i < 18) {
+                if (i == 12) n = 0;
+                x[i] = a / 2 + a * n;
+                y[i] = a/2+ 2*a;
+                n++;
+            }
+            //4
+            else if (i < 24) {
+                if (i == 18) n = 0;
+                x[i] = a / 2 + a * n;
+                y[i] = a/2+ 3*a;
+                n++;
+            }
+            //5
+            else if (i < 30) {
+                if (i == 24) n = 0;
+                x[i] = a / 2 + a * n;
+                y[i] = a/2+ 4*a;
+                n++;
+            }
+            //6
+            else if (i < 36) {
+                if (i == 30) n = 0;
+                x[i] = a / 2 + a * n;
+                y[i] = a/2+ 5*a;
+                n++;
+            }
+
+            Vx[i] = Vmax * (Math.random() * 2 - 1);// [-Vmax,Vmax)
+            Vy[i] = Vmax * (Math.random() * 2 - 1);// [-Vmax,Vmax)
+        }
+    }
+    void Vmas() {
         double Vxmas = 0;
         double Vymas = 0;
 
-        for (int i = 0; i < N; i++)
-        {
+        for (int i = 0; i < N; i++) {
             Vxmas = Vxmas + Vx[i];
             Vymas = Vymas + Vy[i];
         }
@@ -75,14 +164,12 @@ public class MolecularDynamics {
         Vxmas = Vxmas / N;
         Vymas = Vymas / N;
 
-        for (int i = 0; i < N; i++)
-        {
+        for (int i = 0; i < N; i++) {
             Vx[i] = Vx[i] - Vxmas;
             Vy[i] = Vy[i] - Vymas;
         }
 
-        for(int i = 0;i < N ; i++)
-        {
+        for (int i = 0; i < N; i++) {
             sumImpulse += (Vx[i] + Vy[i]);
         }
     }
@@ -92,7 +179,7 @@ public class MolecularDynamics {
         deviation = 0;
         KE = 0;
 
-        for (int i = 0; i < N; i++)
+        for (int i = 0; i < x.length; i++)
         {
             double xnew;
             double ynew;
@@ -132,7 +219,7 @@ public class MolecularDynamics {
             // average deviation among all N particles
             deviation = deviation / N;
 
-        for (int i = 0; i < N; i++)
+        for (int i = 0; i < x.length; i++)
         {
             Vx[i] = Vx[i] + 0.5 * ax[i] * dt;
             Vy[i] = Vy[i] + 0.5 * ay[i] * dt;
@@ -140,7 +227,7 @@ public class MolecularDynamics {
 
         accel();
 
-        for (int i = 0; i < N; i++)
+        for (int i = 0; i < x.length; i++)
         {
             Vx[i] = Vx[i] + 0.5 * ax[i] * dt;
             Vy[i] = Vy[i] + 0.5 * ay[i] * dt;
@@ -162,15 +249,15 @@ public class MolecularDynamics {
 
         PE = 0;
 
-        for (int i = 0; i < N; i++)
+        for (int i = 0; i < x.length; i++)
         {
             ax[i] = 0.0d;
             ay[i] = 0.0d;
         }
 
-        for (int i = 0; i < N - 1; i++)
+        for (int i = 0; i < x.length - 1; i++)
         {
-            for (int j = i + 1; j < N; j++)
+            for (int j = i + 1; j < x.length; j++)
             {
                 dx = x[i] - x[j];
                 dy = y[i] - y[j];
@@ -212,4 +299,7 @@ public class MolecularDynamics {
         }
         return instance;
     }
-}
+
+
+
+    }

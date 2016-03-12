@@ -33,17 +33,16 @@ public class ControlPanel extends JFrame
 
 
     JTextField dt = new JTextField(MolecularDynamics.dt + "");
-    JTextField N = new JTextField(MolecularDynamics.N + "");
+    static JTextField N = new JTextField(MolecularDynamics.x.length+ "");
     JTextField Vmax = new JTextField(MolecularDynamics.Vmax + "");
-    JTextField Lx = new JTextField(MolecularDynamics.Lx + "");
-    JTextField Ly = new JTextField(MolecularDynamics.Ly + "");
+    static JTextField Lx = new JTextField(String.format("%-6.2f",MolecularDynamics.Lx));
+    static JTextField Ly = new JTextField(String.format("%-6.2f",MolecularDynamics.Ly));
 
 
     public ControlPanel()
     {
         setTitle("Control Panel");
         setPreferredSize(new Dimension(540, 75));
-        //setSize(550,48);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -66,14 +65,6 @@ public class ControlPanel extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                N.setEditable(false);
-                Vmax.setEditable(false);
-                Lx.setEditable(false);
-                Ly.setEditable(false);
-                N.setBackground(Color.gray);
-                Vmax.setBackground(Color.gray);
-                Lx.setBackground(Color.gray);
-                Ly.setBackground(Color.gray);
                 if(go)
                 {
                     callMain();
@@ -87,6 +78,14 @@ public class ControlPanel extends JFrame
                 {
                     Main.pause = true;
                 }
+                N.setEditable(false);
+                Vmax.setEditable(false);
+                Lx.setEditable(false);
+                Ly.setEditable(false);
+                N.setBackground(Color.gray);
+                Vmax.setBackground(Color.gray);
+                Lx.setBackground(Color.gray);
+                Ly.setBackground(Color.gray);
             }
         });
 
@@ -123,34 +122,34 @@ public class ControlPanel extends JFrame
 
 
         // x100 potential
-        x100.setText("x100");
+        x100.setText("x10");
         x100.setSize(68,15);
         x100.setLocation(50,0);
-        x100.setToolTipText("Multiply potential value by 100");
+        x100.setToolTipText("Multiply potential value by 10");
         x100.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e)
             {
                 if(MolecularDynamics.forceMulty < 1000000)
                 {
-                    MolecularDynamics.forceMulty *= 100;
+                    MolecularDynamics.forceMulty *= 10;
                     multy.setText(MolecularDynamics.forceMulty + "x");
                 }
             }
         });
 
         // /100 potential
-        d100.setText("/100");
+        d100.setText("/10");
         d100.setSize(68, 15);
         d100.setLocation(50, 33);
-        d100.setToolTipText("Divide potential value by 100");
+        d100.setToolTipText("Divide potential value by 10");
         d100.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e)
             {
                 if(MolecularDynamics.forceMulty > 1)
                 {
-                    MolecularDynamics.forceMulty /= 100;
+                    MolecularDynamics.forceMulty /= 10;
                     multy.setText(MolecularDynamics.forceMulty + "x");
                 }
             }
@@ -262,8 +261,8 @@ public class ControlPanel extends JFrame
                     MolecularDynamics.N = Integer.parseInt(N.getText());
                     MolecularDynamics.dt = Double.parseDouble(dt.getText());
                     MolecularDynamics.Vmax = Double.parseDouble(Vmax.getText());
-                    MolecularDynamics.Lx = Integer.parseInt(Lx.getText());
-                    MolecularDynamics.Ly = Integer.parseInt(Ly.getText());
+                    MolecularDynamics.Lx = Double.parseDouble(Lx.getText());
+                    MolecularDynamics.Ly = Double.parseDouble(Ly.getText());
             }
         });
 
