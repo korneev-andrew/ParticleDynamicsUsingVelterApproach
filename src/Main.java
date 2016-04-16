@@ -36,12 +36,14 @@ public class Main extends JFrame {
     static double PE;
     static double KE;
     DrawPanel panel;
+    LinkedList<Double> avDeviation = new LinkedList<>();
+    double AVDEVIATION;
 
 
     Main(String s) {
         super(s);
         panel = new DrawPanel();
-        panel.setPreferredSize(new Dimension((int) (md.Lx + indentX * 3), (int) (md.Ly + indentY * 3)));
+        panel.setPreferredSize(new Dimension((int) (MolecularDynamics.Lx + indentX * 3), (int) (MolecularDynamics.Ly + indentY * 3)));
         add(panel);
         pack();
         setVisible(true);
@@ -84,21 +86,31 @@ public class Main extends JFrame {
 
     @Override
     public void run() {
-
-
         while (true)
         {
             if(!pause)
             {
                 repaint();
-                if(time%100==0 && time!=timeToSkip && ii < 10000)
-                {
+
+                if(time%100==0 && time!=timeToSkip && ii < 10000) {
                     timeToSkip = time;
-                    data[ii]= String.format("%-6.2f",(double)time/1000) + " " + String.format("%-18.12f",E) + " " + String.format("%-18.12f",KE) + " " +
-                              String.format("%-18.12f",PE) + " " +   String.format("%-18.16f",MolecularDynamics.deviation) + " " +
-                              String.format("%-18.15f",KE * md.m / (1.38 * Math.pow(10, -23)));
+                    avDeviation.add(MolecularDynamics.deviation);
+                    data[ii] = String.format("%-6.2f", (double) time / 1000) + " " + String.format("%-18.12f", E) + " " + String.format("%-18.12f", KE) + " " +
+                            String.format("%-18.12f", PE) + " " + String.format("%-18.16f", MolecularDynamics.deviation) + " " +
+                            String.format("%-18.15f", KE * md.m / (MolecularDynamics.kb * MolecularDynamics.N));
                     ii++;
+
+                    if (ii % 10 == 0) {
+                        for (double x : avDeviation) {
+                            AVDEVIATION += x;
+                        }
+                        AVDEVIATION /= avDeviation.size();
+
+                        data[ii] = String.format("AVDEVIATION %-18.16f", AVDEVIATION);
+                        ii++;
+                    }
                 }
+
             }
             try {Thread.sleep(1);
             } catch (InterruptedException ex) {}
@@ -116,17 +128,27 @@ public class Main extends JFrame {
 
         if (init)
         {
+
             //md.initSquareLattice();
             md.initTriangleLattice();
-            //new Deform().RemoveParticlesByIndex(12,6);
-            new Deform().AddParticle(md.Lx/2, md.Ly/2);
+            //md.initRandomLattice();
+            new Deform().RemoveParticlesByIndex(12,1);
+            //new Deform().RemoveParticlesByIndex(24,1);
+            //new Deform().AddParticle(0, md.Ly/2);
+            //new Deform().AddParticle(md.a, md.Ly/2);
+            //new Deform().AddParticle(2*md.a, md.Ly/2);
+            //new Deform().AddParticle(3*md.a, md.Ly/2);
+            //new Deform().AddParticle(4*md.a, md.Ly/2);
+            //new Deform().AddParticle(5*md.a, md.Ly/2);
             md.Vmas();
-            panel.setPreferredSize(new Dimension((int) (md.Lx + indentX * 3), (int) (md.Ly + indentY * 3)));
             md.accel();
             init = false;
+
         }
+
         for(int i = 0; i < md.nsnap; i++)
             md.verlet();
+
 
         g2d.drawRect(indentX,indentY,(int)md.Lx + indentX,(int)md.Ly + indentY);
         g2d.drawString("" + (int)md.Lx, (int) md.Lx + indentX , indentY);
@@ -134,7 +156,7 @@ public class Main extends JFrame {
         g2d.drawString("X", (int)md.Lx/2, indentY - indentY/2);
         g2d.drawString("Y", indentY / 2, (int) md.Ly/2);
         g2d.drawString(mins + "m" + formatter.format(secs/1000) + "s",(int)md.Lx,(int)md.Ly + indentY*3);
-
+        g2d.drawString("T=" + MolecularDynamics.T1,10,10);
 
         KE = md.KE;
         PE = md.PE;

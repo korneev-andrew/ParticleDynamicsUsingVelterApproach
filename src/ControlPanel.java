@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Locale;
 
 
 /**
@@ -16,6 +17,9 @@ import java.io.IOException;
 public class ControlPanel extends JFrame
 {
     boolean go = true;
+    static boolean Tchange = false;
+    String Tprev;
+
     static JPanel jpanel = new JPanel();
 
     JButton startButton = new JButton();
@@ -30,19 +34,21 @@ public class ControlPanel extends JFrame
     JLabel VmaxLabel = new JLabel("Vmax");
     JLabel LxLabel = new JLabel("Lx");
     JLabel LyLabel = new JLabel("Ly");
+    static JLabel TLabel = new JLabel("T,K");
 
 
     JTextField dt = new JTextField(MolecularDynamics.dt + "");
     static JTextField N = new JTextField(MolecularDynamics.x.length+ "");
     JTextField Vmax = new JTextField(MolecularDynamics.Vmax + "");
-    static JTextField Lx = new JTextField(String.format("%-6.2f",MolecularDynamics.Lx));
-    static JTextField Ly = new JTextField(String.format("%-6.2f",MolecularDynamics.Ly));
+    static JTextField Lx = new JTextField(String.format(Locale.CANADA,"%-6.2f",MolecularDynamics.Lx));
+    static JTextField Ly = new JTextField(String.format(Locale.CANADA,"%-6.2f",MolecularDynamics.Ly));
+    static JTextField T = new JTextField(String.format(Locale.CANADA,"%-9.6f",MolecularDynamics.T1));
 
 
     public ControlPanel()
     {
         setTitle("Control Panel");
-        setPreferredSize(new Dimension(540, 75));
+        setPreferredSize(new Dimension(600, 75));
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -94,7 +100,7 @@ public class ControlPanel extends JFrame
         saveButton.setBackground(Color.gray);
         saveButton.setToolTipText("Save in txt format");
         saveButton.setSize(48,48);
-        saveButton.setLocation(486,0);
+        saveButton.setLocation(546,0);
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e)
@@ -263,10 +269,28 @@ public class ControlPanel extends JFrame
                     MolecularDynamics.Vmax = Double.parseDouble(Vmax.getText());
                     MolecularDynamics.Lx = Double.parseDouble(Lx.getText());
                     MolecularDynamics.Ly = Double.parseDouble(Ly.getText());
+                    Tchange = true;
             }
         });
 
 
+        //adding temperature incr
+        TLabel.setSize(68,15);
+        TLabel.setLocation(470,0);
+        TLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        T.setSize(68,18);
+        T.setLocation(470,15);
+        T.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                if(!T.getText().equals(Tprev))
+                Tchange = true;
+
+                Tprev = T.getText();
+            }
+        });
 
         // adding JObjects to JPanel
         jpanel.add(startButton);
@@ -285,6 +309,8 @@ public class ControlPanel extends JFrame
         jpanel.add(LxLabel);
         jpanel.add(LyLabel);
         jpanel.add(enter);
+        jpanel.add(T);
+        jpanel.add(TLabel);
 
         // JPanel settings
         jpanel.setOpaque(true);
